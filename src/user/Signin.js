@@ -2,6 +2,7 @@
 import React , {Component} from 'react' ;
 import {Link, Redirect} from 'react-router-dom' ;
 import {signin,authenticate} from "../authentication";
+import SocialLogin from "./SocialLogin";
 
 
 class Signin extends Component {
@@ -142,7 +143,9 @@ class Signin extends Component {
 
                 {this.signinForm(email, password)}
 
-
+                <>
+                    <SocialLogin />
+                </>
 
             </div>
         );
