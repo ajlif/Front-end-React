@@ -18,10 +18,10 @@ export const create = (userId, token , postData) => {
 
 };
 
-// get posts list
-export const list =() => {
+// get posts list (modified to make pagination)
+export const list = page => {
 
-    return fetch(`${process.env.REACT_APP_API_URL}/posts` , {
+    return fetch(`${process.env.REACT_APP_API_URL}/posts/?page=${page}` , {
         method : "GET",
 
     })

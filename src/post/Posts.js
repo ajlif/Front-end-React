@@ -8,21 +8,38 @@ class Posts extends Component{
     constructor(){
         super();
         this.state = {
-            posts : []
+            posts : [],
+            page: 1
         }
     }
 
 
     componentDidMount() {
-        // list is a funtion in (apiUser) that return list of users ,i handle it here by then
-        list().then(data => {
-
-            data.error ? console.log(data.error) : this.setState({posts : data}) ;
-
-        });
-
-
+        this.loadPosts(this.state.page);
     }
+
+
+    loadPosts = page => {
+        list(page).then(data => {
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                this.setState({ posts: data });
+            }
+        });
+    };
+
+
+    loadMore = number => {
+        this.setState({ page: this.state.page + number });
+        this.loadPosts(this.state.page + number);
+    };
+ 
+
+    loadLess = number => {
+        this.setState({ page: this.state.page - number });
+        this.loadPosts(this.state.page - number);
+    };
 
     // return all users.  () = {return ..}
     renderPosts = (posts) => {
@@ -84,7 +101,7 @@ class Posts extends Component{
 
 
     render() {
-        const {posts} = this.state ;
+        const {posts, page} = this.state ;
 
         return (
             <div className="container">
@@ -94,6 +111,29 @@ class Posts extends Component{
                 </div>
 
                 {this.renderPosts(posts)}
+
+                {page > 1 ? (
+                        <button
+                            className="center btn btn-raised btn-warning mr-5 mt-5 mb-5"
+                            onClick={() => this.loadLess(1)}
+                        >
+                            Previous
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    {page}
+     
+                {posts.length -1 ? (
+                    <button
+                        className=" btn btn-raised btn-success mt-5 mb-5"
+                        onClick={() => this.loadMore(1)}
+                    >
+                        Next
+                    </button>
+                    ) : (
+                        ""
+                    )}
 
             </div>
         );
